@@ -7,5 +7,5 @@ type controllerType = (
 ) => Promise<void | any> | any;
 
 export interface IcalendarController {
-  helloWorld: controllerType;
+  newEvent: controllerType;
 }

@@ -1,9 +1,9 @@
-import express from "express";
+import express, { Router } from "express";
 import { calendarController } from "./controllers/calendarController";
 
 const routes = express.Router();
 
-// Routes routes
-routes.get("/", calendarController.helloWorld);
-
+// Routes
+routes.post("/", calendarController.newEvent);
+routes.patch("/:eventId", calendarController.editEvent);
 export default routes;
