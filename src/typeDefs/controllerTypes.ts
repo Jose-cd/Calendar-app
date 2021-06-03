@@ -10,4 +10,5 @@ export interface IcalendarController {
   newEvent: controllerType;
   editEvent: controllerType;
   deleteEvent: controllerType;
+  getEvents: controllerType;
 }

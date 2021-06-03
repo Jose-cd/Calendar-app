@@ -45,4 +45,13 @@ export const calendarController: IcalendarController = {
 
     res.json(true);
   },
+
+  getEvents: async (req, res, next) => {
+    try {
+      const events = await Event.find();
+      return res.json(events);
+    } catch (err) {
+      next(err);
+    }
+  },
 };

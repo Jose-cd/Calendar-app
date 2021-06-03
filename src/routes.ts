@@ -7,4 +7,5 @@ const routes = express.Router();
 routes.post("/", calendarController.newEvent);
 routes.patch("/:id", calendarController.editEvent);
 routes.delete("/:id", calendarController.deleteEvent);
+routes.get("/", calendarController.getEvents);
 export default routes;
