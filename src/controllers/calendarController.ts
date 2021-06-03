@@ -20,7 +20,7 @@ export const calendarController: IcalendarController = {
   editEvent: async (req, res, next) => {
     let { id } = req.params;
     const { event }: { event: IEvent } = req.body;
-    const filter = { _id: eventId };
+    const filter = { _id: id };
     const update = { ...event };
 
     try {
@@ -29,7 +29,7 @@ export const calendarController: IcalendarController = {
       return next(err);
     }
 
-    const updatedEvent = await Event.findById(eventId);
+    const updatedEvent = await Event.findById(id);
 
     return res.json({ eventId: updatedEvent });
   },
