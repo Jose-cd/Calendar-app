@@ -18,7 +18,7 @@ export const calendarController: IcalendarController = {
   },
 
   editEvent: async (req, res, next) => {
-    let { eventId } = req.params;
+    let { id } = req.params;
     const { event }: { event: IEvent } = req.body;
     const filter = { _id: eventId };
     const update = { ...event };
@@ -32,5 +32,17 @@ export const calendarController: IcalendarController = {
     const updatedEvent = await Event.findById(eventId);
 
     return res.json({ eventId: updatedEvent });
+  },
+
+  deleteEvent: async (req, res, next) => {
+    const { id } = req.params;
+
+    try {
+      await Event.findOneAndDelete({ _id: id });
+    } catch (err) {
+      next(err);
+    }
+
+    res.json(true);
   },
 };
