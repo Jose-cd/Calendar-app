@@ -8,4 +8,5 @@ type controllerType = (
 
 export interface IcalendarController {
   newEvent: controllerType;
+  editEvent: controllerType;
 }

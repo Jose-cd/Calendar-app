@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import { IEvent } from "../typeDefs/Event";
 
-const eventSchema = new mongoose.Schema({
+export const eventSchema = new mongoose.Schema({
+  _id: mongoose.SchemaTypes.ObjectId,
   nombre: {
     type: String,
     required: true,
