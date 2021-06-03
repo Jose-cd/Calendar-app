@@ -1,12 +1,35 @@
 import { IcalendarController } from "../typeDefs/controllerTypes";
 import { createEventInstance, Event } from "../models/eventSchema";
 import { IEvent } from "../typeDefs/Event";
-import mongoose, { Mongoose } from "mongoose";
 
 export const calendarController: IcalendarController = {
   newEvent: async (req, res, next) => {
-    const { event }: { event: IEvent } = req.body;
+    let { event }: { event: IEvent } = req.body;
+    //  convert new event's date to Date()
+    event.fecha = new Date(event.fecha);
+    event.horaFinalizacion = new Date(event.horaFinalizacion);
+    event.horaInicio = new Date(event.horaInicio);
+
     const newEvent = createEventInstance(event);
+    const eventList: IEvent[] = await Event.find();
+    let eventExists = false;
+
+    for (let i = 0; i < eventList.length; i++) {
+      // check if the event is in the same day
+      if (eventList[i].fecha.getDay() == event.fecha.getDay()) {
+        // check if the event is in the same range of hours
+        if (
+          event.horaInicio.getHours() == eventList[i].horaInicio.getHours() ||
+          (event.horaInicio.getHours() > eventList[i].horaInicio.getHours() &&
+            event.horaInicio.getHours() <
+              eventList[i].horaFinalizacion.getHours())
+        )
+          eventExists = true;
+        break;
+      }
+    }
+
+    if (eventExists) return next(new Error("Ya existe un evento a esta hora"));
 
     try {
       await newEvent.save();

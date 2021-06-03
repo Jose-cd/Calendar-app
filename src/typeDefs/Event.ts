@@ -4,6 +4,6 @@ export interface IEvent {
   lugar: string;
   color: string;
   fecha: Date;
-  horaInicio: string;
-  horaFinalizacion: string;
+  horaInicio: Date;
+  horaFinalizacion: Date;
 }
