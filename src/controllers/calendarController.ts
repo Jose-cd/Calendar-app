@@ -10,6 +10,15 @@ export const calendarController: IcalendarController = {
     event.horaFinalizacion = new Date(event.horaFinalizacion);
     event.horaInicio = new Date(event.horaInicio);
 
+    // check horaInicio horaFinalizacion
+    if (event.horaFinalizacion < event.horaInicio) {
+      return next(new Error("La hora fin no puede ser menor a la hora inicio"));
+    }
+
+    if (event.horaInicio.getDay() !== event.horaFinalizacion.getDay()) {
+      return next(new Error("Los eventos no pueden abarcar mas de 1 dia"));
+    }
+
     const newEvent = createEventInstance(event);
     const eventList: IEvent[] = await Event.find();
     let eventExists = false;
