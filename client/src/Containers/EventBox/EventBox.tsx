@@ -1,23 +1,24 @@
+import { Button, DatePicker, Form, Input, message, TimePicker } from "antd";
 import React from "react";
-import { Button, DatePicker, Form, Input, TimePicker } from "antd";
-import moment from "moment";
+import { useAppDispatch } from "../../Redux/hooks";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { createEvent } from "../../Redux/slices/eventSlice";
+import { IEvent } from "../../typeDefs/Event";
 import "./EventBox.css";
 interface EventBoxProps {}
-interface formType {
-  nombre: string;
-  descripcion: string;
-  lugar: string;
-  color: string;
-  fecha: Date;
-  horaInicio: Date;
-  horaFinalizacion: Date;
-}
 
 export const EventBox: React.FC<EventBoxProps> = () => {
+  const dispatch = useAppDispatch();
+
   const [form] = Form.useForm();
 
-  const onFinish = (values: formType) => {
-    console.log(values);
+  const onFinish = async (values: IEvent) => {
+    dispatch(createEvent(values))
+      .then(unwrapResult)
+      .then((originalPromiseResult) => console.log(originalPromiseResult))
+      .catch((rejectedValueOrSerializedError) =>
+        console.log("rejectedValueOrSerializedError")
+      );
   };
 
   const config = {
@@ -75,6 +76,10 @@ export const EventBox: React.FC<EventBoxProps> = () => {
           <DatePicker />
         </Form.Item>
 
+        <Form.Item name="color" label="Color" required>
+          <Input required />
+        </Form.Item>
+
         <Form.Item
           name="horaInicio"
           label="Hora Inicio"
@@ -86,7 +91,7 @@ export const EventBox: React.FC<EventBoxProps> = () => {
 
         <Form.Item
           name="horaFinalizacion"
-          label="Fecha"
+          label="Fecha Fin"
           {...configTime}
           required
         >
