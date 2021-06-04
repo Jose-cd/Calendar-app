@@ -16,8 +16,8 @@ const initialState: eventState = {
 export const createEvent = createAsyncThunk(
   "event/createEvent",
   async (event: IEvent, { rejectWithValue }) => {
-    return axios
-      .post("http://localhost:5000/", { event: event })
+    return eventServices
+      .createEvent(event)
       .then((response) => {
         return response.data as IEvent;
       })
