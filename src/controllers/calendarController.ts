@@ -15,6 +15,7 @@ export const calendarController: IcalendarController = {
       return next(new Error("La hora fin no puede ser menor a la hora inicio"));
     }
 
+    // check if the event covers 2 different days
     if (event.horaInicio.getDay() !== event.horaFinalizacion.getDay()) {
       return next(new Error("Los eventos no pueden abarcar mas de 1 dia"));
     }
