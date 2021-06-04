@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 import { IEvent } from "../../typeDefs/Event";
 import { eventServices } from "./EventServices/eventsService";
 
@@ -15,12 +16,12 @@ const initialState: eventState = {
 export const createEvent = createAsyncThunk(
   "event/createEvent",
   async (event: IEvent, { rejectWithValue }) => {
-    try {
-      const response = await eventServices.createEvent(event);
-      return response.data;
-    } catch (err) {
-      rejectWithValue(err);
-    }
+    return axios
+      .post("http://localhost:5000/", { event: event })
+      .then((response) => {
+        return response.data as IEvent;
+      })
+      .catch((err) => rejectWithValue(err.response.data));
   }
 );
 

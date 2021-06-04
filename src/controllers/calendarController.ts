@@ -4,6 +4,7 @@ import { IEvent } from "../typeDefs/Event";
 
 export const calendarController: IcalendarController = {
   newEvent: async (req, res, next) => {
+    console.log("req event: ", req.body.event);
     let { event }: { event: IEvent } = req.body;
     //  convert new event's date to Date()
     event.fecha = new Date(event.fecha);

@@ -5,6 +5,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { createEvent } from "../../Redux/slices/eventSlice";
 import { IEvent } from "../../typeDefs/Event";
 import "./EventBox.css";
+import axios, { AxiosError } from "axios";
 interface EventBoxProps {}
 
 export const EventBox: React.FC<EventBoxProps> = () => {
@@ -15,10 +16,8 @@ export const EventBox: React.FC<EventBoxProps> = () => {
   const onFinish = async (values: IEvent) => {
     dispatch(createEvent(values))
       .then(unwrapResult)
-      .then((originalPromiseResult) => console.log(originalPromiseResult))
-      .catch((rejectedValueOrSerializedError) =>
-        console.log("rejectedValueOrSerializedError")
-      );
+      .then(() => message.success("Evento creado con exito."))
+      .catch((err) => message.error(err.message));
   };
 
   const config = {
