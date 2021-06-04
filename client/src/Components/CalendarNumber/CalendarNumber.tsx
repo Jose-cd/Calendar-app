@@ -1,5 +1,6 @@
 import React from "react";
 import "./CalendarNumbers.css";
+import { v4 as uuidv4 } from "uuid";
 interface CalendarNumberProps {}
 
 export const CalendarNumber: React.FC<CalendarNumberProps> = () => {
@@ -16,7 +17,12 @@ export const CalendarNumber: React.FC<CalendarNumberProps> = () => {
     <>
       <div className="days">
         {days.map((day) => (
-          <div className={`day ${isWeekend(day) ? "weekend" : ""}`}>{day}</div>
+          <div
+            key={uuidv4()}
+            className={`day ${isWeekend(day) ? "weekend" : ""}`}
+          >
+            {day}
+          </div>
         ))}
       </div>
     </>
