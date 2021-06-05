@@ -8,4 +8,7 @@ export const eventServices = {
   getEvents: async () => {
     return axios.get("http://localhost:5000/");
   },
+  deleteEvent: async (id: string) => {
+    return axios.delete(`http://localhost:5000/${id}`);
+  },
 };

@@ -86,10 +86,10 @@ export const calendarController: IcalendarController = {
     try {
       await Event.findOneAndDelete({ _id: id });
     } catch (err) {
-      next(err);
+      return next(new Error("No se encontró un evento con este id."));
     }
 
-    res.json(true);
+    return res.json(true);
   },
 
   getEvents: async (req, res, next) => {

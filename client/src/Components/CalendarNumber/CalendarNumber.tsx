@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./CalendarNumbers.css";
 import { v4 as uuidv4 } from "uuid";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
-import { getEventsThunk } from "../../Redux/slices/getEventsSlice";
 import { IEvent } from "../../typeDefs/Event";
 import { message, Tooltip } from "antd";
 import { ModalDayEventList } from "../ModalDayEventList/ModalDayEventList";
+import { getEventsThunk } from "../../Redux/slices/eventsSlice";
 
 interface CalendarNumberProps {}
 

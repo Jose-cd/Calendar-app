@@ -3,8 +3,10 @@ import { Button, message } from "antd";
 import React, { useState } from "react";
 import { ModalCreateEvent } from "../../Components/ModalCreateEvent/ModalCreateEvent";
 import { useAppDispatch } from "../../Redux/hooks";
-import { createEventThunk } from "../../Redux/slices/createEventSlice";
-import { getEventsThunk } from "../../Redux/slices/getEventsSlice";
+import {
+  createEventThunk,
+  getEventsThunk,
+} from "../../Redux/slices/eventsSlice";
 import { IEvent } from "../../typeDefs/Event";
 import "./EventBox.css";
 interface EventBoxProps {}
