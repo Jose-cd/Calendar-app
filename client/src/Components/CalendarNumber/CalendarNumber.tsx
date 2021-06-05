@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { getEventsThunk } from "../../Redux/slices/getEventsSlice";
 import { IEvent } from "../../typeDefs/Event";
 import { message } from "antd";
-import searchForEventInArr from "../utils/searchForEventInArr";
 
 interface CalendarNumberProps {}
 
@@ -36,12 +35,17 @@ export const CalendarNumber: React.FC<CalendarNumberProps> = ({}) => {
 
     for (let i = 1; i < 32; i++) {
       // check if an event exists this day
-      searchForEventInArr(i, "fecha", events)
-        ? formattedDays.push({
-            dayNum: i,
-            event: searchForEventInArr(i, "fecha", events),
-          })
-        : formattedDays.push({ dayNum: i });
+      let todayEvent = events.filter(
+        (e) => new Date(e.fecha).getDate() === i
+      )[0];
+      if (todayEvent) {
+        formattedDays.push({
+          dayNum: i,
+          event: todayEvent,
+        });
+      } else {
+        formattedDays.push({ dayNum: i });
+      }
     }
 
     setDays(formattedDays);
