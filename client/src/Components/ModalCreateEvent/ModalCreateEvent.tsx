@@ -35,6 +35,7 @@ export const ModalCreateEvent: React.FC<ModalCreateEventProps> = ({
       .then((values) => {
         onOk(values).then(() => {
           form.resetFields();
+          onCancel();
         });
       })
       .catch((info) => {

@@ -4,7 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { getEventsThunk } from "../../Redux/slices/getEventsSlice";
 import { IEvent } from "../../typeDefs/Event";
-import { message } from "antd";
+import { message, Tooltip } from "antd";
+import { ModalDayEventList } from "../ModalDayEventList/ModalDayEventList";
 
 interface CalendarNumberProps {}
 
@@ -13,10 +14,11 @@ type days = {
   event?: IEvent;
 };
 
-export const CalendarNumber: React.FC<CalendarNumberProps> = ({}) => {
+export const CalendarNumber: React.FC<CalendarNumberProps> = () => {
   const [days, setDays] = useState<days[]>([]);
   const dispatch = useAppDispatch();
-
+  const [currentDaySelected, setCurrentDaySelected] = useState<number>(0);
+  const [displayEventListModal, setDisplayEventListModal] = useState(false);
   const { status, events } = useAppSelector((state) => state.events);
 
   // fetch events
@@ -55,6 +57,11 @@ export const CalendarNumber: React.FC<CalendarNumberProps> = ({}) => {
     if (day % 7 === 6 || day % 7 === 0) return true;
   };
 
+  const handleDayClick = (day: number) => {
+    setDisplayEventListModal(true);
+    setCurrentDaySelected(day);
+  };
+
   if (status === "loading") return <> </>;
 
   return (
@@ -62,13 +69,29 @@ export const CalendarNumber: React.FC<CalendarNumberProps> = ({}) => {
       <div className="days">
         {days.map((day) => (
           <div
+            onClick={() => handleDayClick(day.dayNum)}
             key={uuidv4()}
             className={`day ${isWeekend(day.dayNum) ? "weekend" : ""}`}
           >
-            {day.dayNum}
+            {day.event ? (
+              <Tooltip title={day.event.nombre}>
+                {" "}
+                <span className="day-event">{day.dayNum}</span>
+              </Tooltip>
+            ) : (
+              <span>{day.dayNum}</span>
+            )}
           </div>
         ))}
       </div>
+
+      {/* View Event list for the day Modal */}
+      <ModalDayEventList
+        isModalVisible={displayEventListModal}
+        day={currentDaySelected}
+        handleCancel={() => setDisplayEventListModal(false)}
+        handleOk={() => setDisplayEventListModal(false)}
+      />
     </div>
   );
 };

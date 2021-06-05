@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { ModalCreateEvent } from "../../Components/ModalCreateEvent/ModalCreateEvent";
 import { useAppDispatch } from "../../Redux/hooks";
 import { createEventThunk } from "../../Redux/slices/createEventSlice";
+import { getEventsThunk } from "../../Redux/slices/getEventsSlice";
 import { IEvent } from "../../typeDefs/Event";
 import "./EventBox.css";
 interface EventBoxProps {}
@@ -19,6 +20,7 @@ export const EventBox: React.FC<EventBoxProps> = () => {
       .then(() => {
         loadingMsg();
         message.success("Evento creado con exito.");
+        dispatch(getEventsThunk());
         return;
       })
       .catch((err) => {

@@ -12,3 +12,13 @@
 .day.weekend {
   color: blue;
 }
+
+.day {
+  cursor: pointer;
+}
+
+.day-event {
+  background-color: #acecf7;
+  padding: 1rem;
+  border-radius: 5px;
+}
