@@ -20,7 +20,7 @@ export const calendarController: IcalendarController = {
     }
 
     // check if the event covers 2 different days
-    if (event.horaInicio.getDay() !== event.horaFinalizacion.getDay()) {
+    if (event.horaInicio.getDate() !== event.horaFinalizacion.getDate()) {
       return next(new Error("Los eventos no pueden abarcar mas de 1 dia."));
     }
 
@@ -30,7 +30,7 @@ export const calendarController: IcalendarController = {
 
     for (let i = 0; i < eventList.length; i++) {
       // check if the event is in the same day
-      if (eventList[i].fecha.getDay() == event.fecha.getDay()) {
+      if (eventList[i].fecha.getDate() == event.fecha.getDate()) {
         // check if the event is in the same exact hours & minutes
         if (
           event.horaInicio.getHours() === eventList[i].horaInicio.getHours() &&
