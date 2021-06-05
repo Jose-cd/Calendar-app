@@ -40,15 +40,15 @@ export const calendarController: IcalendarController = {
           break;
         }
 
-        // check if the event is in the same range of hours
-        if (
-          event.horaInicio.getHours() == eventList[i].horaInicio.getHours() ||
-          (event.horaInicio.getHours() > eventList[i].horaInicio.getHours() &&
-            event.horaInicio.getHours() <
-              eventList[i].horaFinalizacion.getHours())
-        )
-          eventExists = true;
-        break;
+        // check if the event is in the same range of hours && minutes
+        if (event.horaInicio.getHours() === eventList[i].horaInicio.getHours())
+          if (
+            event.horaInicio.getMinutes() <
+            eventList[i].horaFinalizacion.getMinutes()
+          ) {
+            eventExists = true;
+            break;
+          }
       }
     }
 

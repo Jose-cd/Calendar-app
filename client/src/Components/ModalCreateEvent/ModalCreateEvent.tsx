@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Modal, Form, Input, DatePicker, TimePicker } from "antd";
 import {
   configRules,
@@ -12,6 +12,7 @@ interface ModalCreateEventProps {
   onOk: (event: IEvent) => Promise<void>;
   onCancel: () => void;
   visible: boolean;
+  clearForm: boolean;
 }
 
 const formLayout = {
@@ -27,16 +28,22 @@ export const ModalCreateEvent: React.FC<ModalCreateEventProps> = ({
   onOk,
   onCancel,
   visible,
+  clearForm,
 }) => {
   const [form] = Form.useForm();
+
+  // useEffect to clear form values after creating an event
+  useEffect(() => {
+    if (!clearForm) return;
+
+    form.resetFields();
+  }, [clearForm, form]);
+
   const handleOk = () => {
     form
       .validateFields()
       .then((values) => {
-        onOk(values).then(() => {
-          form.resetFields();
-          onCancel();
-        });
+        onOk(values);
       })
       .catch((info) => {
         console.log("Validate Failed:", info);

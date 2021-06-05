@@ -12,13 +12,16 @@ interface EventBoxProps {}
 export const EventBox: React.FC<EventBoxProps> = () => {
   const dispatch = useAppDispatch();
   const [createEventVisible, setCreateEventVisible] = useState(false);
-
+  const [clearModalForm, setClearModalForm] = useState(false);
   const onFinish = async (values: IEvent) => {
     const loadingMsg = message.loading("Cargando...");
     dispatch(createEventThunk(values))
       .then(unwrapResult)
       .then(() => {
         loadingMsg();
+        setCreateEventVisible(false);
+        setClearModalForm(true);
+        setClearModalForm(false);
         message.success("Evento creado con exito.");
         dispatch(getEventsThunk());
         return;
@@ -40,6 +43,7 @@ export const EventBox: React.FC<EventBoxProps> = () => {
         Agregar Evento
       </Button>
       <ModalCreateEvent
+        clearForm={clearModalForm}
         visible={createEventVisible}
         onCancel={onCancel}
         onOk={(values) => onFinish(values)}
