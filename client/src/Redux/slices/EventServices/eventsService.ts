@@ -5,4 +5,7 @@ export const eventServices = {
   createEvent: async (evento: IEvent) => {
     return axios.post("http://localhost:5000/", { event: evento });
   },
+  getEvents: async () => {
+    return axios.get("http://localhost:5000/");
+  },
 };

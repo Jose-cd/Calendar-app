@@ -1,12 +1,7 @@
 import { unwrapResult } from "@reduxjs/toolkit";
-import { Button, DatePicker, Form, Input, message, TimePicker } from "antd";
+import { Button, message } from "antd";
 import React, { useState } from "react";
 import { ModalCreateEvent } from "../../Components/ModalCreateEvent/ModalCreateEvent";
-import {
-  configTime,
-  hoursFormat,
-  configRules,
-} from "../../Components/utils/TimePickerConfigs";
 import { useAppDispatch } from "../../Redux/hooks";
 import { createEventThunk } from "../../Redux/slices/createEventSlice";
 import { IEvent } from "../../typeDefs/Event";
