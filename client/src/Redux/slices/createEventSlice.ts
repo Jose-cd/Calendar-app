@@ -1,19 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { IEvent } from "../../typeDefs/Event";
 import { eventServices } from "./EventServices/eventsService";
 
-export interface eventState {
+export interface createEventState {
   event?: IEvent;
   status: "idle" | "loading" | "failed";
 }
 
-const initialState: eventState = {
+const initialState: createEventState = {
   event: undefined,
   status: "idle",
 };
 
-export const createEvent = createAsyncThunk(
+// Async thunk to create an event
+export const createEventThunk = createAsyncThunk(
   "event/createEvent",
   async (event: IEvent, { rejectWithValue }) => {
     return eventServices
@@ -31,24 +31,21 @@ export const createEventSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(createEvent.pending, (state) => {
+      .addCase(createEventThunk.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(createEvent.fulfilled, (state, action) => {
+      .addCase(createEventThunk.fulfilled, (state, action) => {
         state.status = "idle";
         state.event = action.payload;
       })
-      .addCase(createEvent.rejected, (state, action) => {
+      .addCase(createEventThunk.rejected, (state, action) => {
         state.status = "failed";
-        state.event = action.payload as any;
       });
   },
 });
 
-// export const {} = createEventSlice.actions;
-
 // The function below is called a selector and allows us to select a value from
-// the state
-// export const selectEvents = (state: RootState) => state.events.eventList;
+// the state.
+export const selectCreateEventState = (state: createEventState) => state;
 
 export default createEventSlice.reducer;

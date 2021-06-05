@@ -6,6 +6,7 @@ export const calendarController: IcalendarController = {
   newEvent: async (req, res, next) => {
     console.log("req event: ", req.body.event);
     let { event }: { event: IEvent } = req.body;
+
     //  convert new event's date to Date()
     event.fecha = new Date(event.fecha);
     event.horaFinalizacion = new Date(event.horaFinalizacion);
@@ -13,12 +14,14 @@ export const calendarController: IcalendarController = {
 
     // check horaInicio horaFinalizacion
     if (event.horaFinalizacion < event.horaInicio) {
-      return next(new Error("La hora fin no puede ser menor a la hora inicio"));
+      return next(
+        new Error("La hora fin no puede ser menor a la hora inicio.")
+      );
     }
 
     // check if the event covers 2 different days
     if (event.horaInicio.getDay() !== event.horaFinalizacion.getDay()) {
-      return next(new Error("Los eventos no pueden abarcar mas de 1 dia"));
+      return next(new Error("Los eventos no pueden abarcar mas de 1 dia."));
     }
 
     const newEvent = createEventInstance(event);
@@ -28,6 +31,15 @@ export const calendarController: IcalendarController = {
     for (let i = 0; i < eventList.length; i++) {
       // check if the event is in the same day
       if (eventList[i].fecha.getDay() == event.fecha.getDay()) {
+        // check if the event is in the same exact hours & minutes
+        if (
+          event.horaInicio.getHours() === eventList[i].horaInicio.getHours() &&
+          event.horaInicio.getMinutes() === eventList[i].horaInicio.getMinutes()
+        ) {
+          eventExists = true;
+          break;
+        }
+
         // check if the event is in the same range of hours
         if (
           event.horaInicio.getHours() == eventList[i].horaInicio.getHours() ||
@@ -40,7 +52,7 @@ export const calendarController: IcalendarController = {
       }
     }
 
-    if (eventExists) return next(new Error("Ya existe un evento a esta hora"));
+    if (eventExists) return next(new Error("Ya existe un evento a esta hora."));
 
     try {
       await newEvent.save();
