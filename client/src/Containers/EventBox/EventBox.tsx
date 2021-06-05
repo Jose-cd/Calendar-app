@@ -15,6 +15,7 @@ export const EventBox: React.FC<EventBoxProps> = () => {
   const dispatch = useAppDispatch();
   const [createEventVisible, setCreateEventVisible] = useState(false);
   const [clearModalForm, setClearModalForm] = useState(false);
+
   const onFinish = async (values: IEvent) => {
     const loadingMsg = message.loading("Cargando...");
     dispatch(createEventThunk(values))

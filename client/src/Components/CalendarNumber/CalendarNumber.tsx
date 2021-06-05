@@ -58,7 +58,7 @@ export const CalendarNumber: React.FC<CalendarNumberProps> = () => {
     }
 
     setDays(formattedDays);
-  }, [events]);
+  }, [events, days.length]);
 
   const isWeekend = (day: number) => {
     if (day % 7 === 6 || day % 7 === 0) return true;

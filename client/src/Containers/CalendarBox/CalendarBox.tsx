@@ -6,13 +6,13 @@ interface CalendarBoxProps {}
 
 export const CalendarBox: React.FC<CalendarBoxProps> = () => {
   const weekDays = [
-    "Monday",
-    "Tueday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
+    "Lunes",
+    "Martes",
+    "Miercoles",
+    "Jueves",
+    "Viernes",
+    "Sábado",
+    "Domingo",
   ];
 
   return (

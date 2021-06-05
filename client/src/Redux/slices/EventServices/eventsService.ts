@@ -11,4 +11,9 @@ export const eventServices = {
   deleteEvent: async (id: string) => {
     return axios.delete(`http://localhost:5000/${id}`);
   },
+  editEvent: async (evento: IEvent) => {
+    return axios.patch("http://localhost:5000/" + evento._id, {
+      event: evento,
+    });
+  },
 };

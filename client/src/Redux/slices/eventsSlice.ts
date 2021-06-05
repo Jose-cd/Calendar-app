@@ -3,12 +3,12 @@ import { IEvent } from "../../typeDefs/Event";
 import { eventServices } from "./EventServices/eventsService";
 
 export interface eventSliceState {
-  events?: IEvent[];
+  events: IEvent[];
   status: "idle" | "loading" | "failed";
 }
 
 const initialState: eventSliceState = {
-  events: undefined,
+  events: [],
   status: "idle",
 };
 
@@ -44,6 +44,19 @@ export const deleteEventThunk = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     return eventServices
       .deleteEvent(id)
+      .then((response) => {
+        return response.data as IEvent;
+      })
+      .catch((err) => rejectWithValue(err.response.data));
+  }
+);
+
+// Async thunk to edit an event
+export const editEventThunk = createAsyncThunk(
+  "event/editEvent",
+  async (event: IEvent, { rejectWithValue }) => {
+    return eventServices
+      .editEvent(event)
       .then((response) => {
         return response.data as IEvent;
       })
@@ -90,6 +103,21 @@ export const eventsSlice = createSlice({
         state.events = updatedEventList;
       })
       .addCase(deleteEventThunk.rejected, (state) => {
+        state.status = "failed";
+      })
+      // edit event Thunk
+      .addCase(editEventThunk.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(editEventThunk.fulfilled, (state, action) => {
+        state.status = "idle";
+        let eventIdx = state.events?.findIndex(
+          (e) => e._id === action.payload._id
+        ) as number;
+
+        state.events[eventIdx] = action.payload;
+      })
+      .addCase(editEventThunk.rejected, (state) => {
         state.status = "failed";
       });
   },

@@ -1,28 +1,22 @@
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Button } from "antd";
+import dayjs from "dayjs";
 import React from "react";
 import { IEvent } from "../../typeDefs/Event";
 import "./EventDayItem.css";
-import dayjs from "dayjs";
-import { Button, message } from "antd";
-import { useAppDispatch } from "../../Redux/hooks";
-import { unwrapResult } from "@reduxjs/toolkit";
-import { deleteEventThunk } from "../../Redux/slices/eventsSlice";
 interface EventDayItemProps {
   event: IEvent;
+  onDelete: (event: IEvent) => void;
+  onEdit: (event: IEvent) => void;
 }
 
-export const EventDayItem: React.FC<EventDayItemProps> = ({ event }) => {
+export const EventDayItem: React.FC<EventDayItemProps> = ({
+  event,
+  onDelete,
+  onEdit,
+}) => {
   let horaInicio = dayjs(event.horaInicio).format("hh:mm a");
   let horaFin = dayjs(event.horaFinalizacion).format("hh:mm a");
-  const dispatch = useAppDispatch();
-
-  const handleDelete = (event: IEvent) => {
-    dispatch(deleteEventThunk(event._id as string))
-      .then(unwrapResult)
-      .then(() => {
-        message.success("Evento eliminado con exito.");
-      })
-      .catch((err) => message.error(err));
-  };
 
   return (
     <div className="item-container">
@@ -37,10 +31,21 @@ export const EventDayItem: React.FC<EventDayItemProps> = ({ event }) => {
         {horaFin}
       </div>
 
-      <div>
-        <Button onClick={() => handleDelete(event)} type="primary" danger>
-          Borrar
-        </Button>
+      <div className="action_buttons_container">
+        <Button
+          type="primary"
+          onClick={() => onEdit(event)}
+          shape="circle"
+          icon={<EditOutlined />}
+          className="button-edit"
+        />
+        <Button
+          icon={<DeleteOutlined />}
+          onClick={() => onDelete(event)}
+          type="primary"
+          danger
+          shape="circle"
+        />
       </div>
     </div>
   );

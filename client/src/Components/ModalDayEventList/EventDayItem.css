@@ -5,4 +5,13 @@
   margin-bottom: 0.8rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.action_buttons_container {
+  display: flex;
+  /* margin-right: 5px; */
+}
+.button-edit {
+  margin-right: 5px;
 }
