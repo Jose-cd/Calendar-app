@@ -28,16 +28,23 @@ export const CalendarNumber: React.FC<CalendarNumberProps> = () => {
     );
   }, [dispatch]);
 
+  // format calendar using events
   useEffect(() => {
-    if (status === "loading") return;
-    if (!events?.length) return;
-    if (days.length) return;
-
     let formattedDays: days[] = [];
+    // if (status === "loading") return;
 
+    /// in case theres not events
+    if (!events?.length && !days.length) {
+      for (let i = 1; i < 32; i++) {
+        formattedDays.push({ dayNum: i });
+      }
+      return setDays(formattedDays);
+    }
+
+    // in case theres events
     for (let i = 1; i < 32; i++) {
       // check if an event exists this day
-      let todayEvent = events.filter(
+      let todayEvent = events?.filter(
         (e) => new Date(e.fecha).getDate() === i
       )[0];
       if (todayEvent) {
@@ -51,7 +58,7 @@ export const CalendarNumber: React.FC<CalendarNumberProps> = () => {
     }
 
     setDays(formattedDays);
-  }, [events, status, days]);
+  }, [events]);
 
   const isWeekend = (day: number) => {
     if (day % 7 === 6 || day % 7 === 0) return true;

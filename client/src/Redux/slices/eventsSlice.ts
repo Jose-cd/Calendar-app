@@ -45,7 +45,7 @@ export const deleteEventThunk = createAsyncThunk(
     return eventServices
       .deleteEvent(id)
       .then((response) => {
-        return response.data as boolean;
+        return response.data as IEvent;
       })
       .catch((err) => rejectWithValue(err.response.data));
   }
@@ -84,6 +84,10 @@ export const eventsSlice = createSlice({
       })
       .addCase(deleteEventThunk.fulfilled, (state, action) => {
         state.status = "idle";
+        const updatedEventList = state.events?.filter(
+          (e) => e._id !== action.payload._id
+        );
+        state.events = updatedEventList;
       })
       .addCase(deleteEventThunk.rejected, (state) => {
         state.status = "failed";
