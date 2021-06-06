@@ -58,7 +58,7 @@ export const editEventThunk = createAsyncThunk(
     return eventServices
       .editEvent(event)
       .then((response) => {
-        return response.data as IEvent;
+        return response.data.eventId as IEvent;
       })
       .catch((err) => rejectWithValue(err.response.data));
   }

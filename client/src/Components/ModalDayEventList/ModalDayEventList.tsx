@@ -41,7 +41,7 @@ export const ModalDayEventList: React.FC<ModalDayEventListProps> = ({
     dispatch(editEventThunk(event))
       .then(unwrapResult)
       .then(() => message.success("Evento editado con exito."))
-      .catch((err) => message.error(err));
+      .catch((err) => message.error("ha ocurrido un error"));
   };
 
   return (
@@ -57,7 +57,7 @@ export const ModalDayEventList: React.FC<ModalDayEventListProps> = ({
           key={uuidv4()}
           event={event}
           onDelete={() => handleDelete(event)}
-          onEdit={() => onEdit(event)}
+          onEdit={onEdit}
         />
       ))}
     </Modal>

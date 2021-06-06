@@ -19,7 +19,7 @@ export const CalendarNumber: React.FC<CalendarNumberProps> = () => {
   const dispatch = useAppDispatch();
   const [currentDaySelected, setCurrentDaySelected] = useState<number>(0);
   const [displayEventListModal, setDisplayEventListModal] = useState(false);
-  const { status, events } = useAppSelector((state) => state.events);
+  const { events } = useAppSelector((state) => state.events);
 
   // fetch events
   useEffect(() => {
@@ -68,8 +68,6 @@ export const CalendarNumber: React.FC<CalendarNumberProps> = () => {
     setDisplayEventListModal(true);
     setCurrentDaySelected(day);
   };
-
-  if (status === "loading") return <> </>;
 
   return (
     <div>
